@@ -70,16 +70,16 @@ public class SLRemoteService {
                 JSONArray deviceArray = devicesObject.getJSONArray("devices");
                 for(int i=0;i<deviceArray.size();i++){
                     String agreement = deviceArray.getString(i);
-                    //网关序列号
                     String devid = agreement.split(",")[0];
+                    //网关序列号
                     int serialNumber = Integer.parseInt(agreement.split(",")[1]);
                     int deviceNumber = serialNumber*1024 + 1;
 
                     DevicePojo devicePojo = new DevicePojo();
-                    devicePojo.setDeviceId(devid);
+                    devicePojo.setDeviceId(agreement);
                     devicePojo.setDeviceNumber(deviceNumber);
                     devicePojo.setSerialNumber(String.valueOf(serialNumber));
-                    SLMap.put(devid, devicePojo);
+                    SLMap.put(agreement, devicePojo);
                     //初始化数据库数据
                     dataService.addAgent(serialNumber);
                     Integer modelid = dataService.addModel();
@@ -193,35 +193,39 @@ public class SLRemoteService {
         for(String devid : resultDataMap.keySet()){
             Map<String,Object> dataMap = resultDataMap.get(devid);
             //设备协议
-            DevicePojo devicePojo = SLMap.get(devid);
-            if(devicePojo != null){
-                String serialNumber = devicePojo.getSerialNumber();
-                // 创建RemoteGatewayPojo
-                RemoteGatewayPojo remoteGatewayPojo = new RemoteGatewayPojo();
-                gatewayPojos.add(remoteGatewayPojo);
+            for(String agreement : SLMap.keySet()){
+                if(agreement.contains(devid)){
+                    DevicePojo devicePojo = SLMap.get(agreement);
+                    if(devicePojo != null){
+                        String serialNumber = devicePojo.getSerialNumber();
+                        // 创建RemoteGatewayPojo
+                        RemoteGatewayPojo remoteGatewayPojo = new RemoteGatewayPojo();
+                        gatewayPojos.add(remoteGatewayPojo);
 
-                remoteGatewayPojo.setZ(serialNumber);
-                List<RemoteDevicePojo> devicePojos = new ArrayList<>();
-                remoteGatewayPojo.setY(devicePojos);
+                        remoteGatewayPojo.setZ(serialNumber);
+                        List<RemoteDevicePojo> devicePojos = new ArrayList<>();
+                        remoteGatewayPojo.setY(devicePojos);
 
-                RemoteDevicePojo remoteDevicePojo = new RemoteDevicePojo();
-                devicePojos.add(remoteDevicePojo);
-                remoteDevicePojo.setD("1");
-                remoteDevicePojo.setT((System.currentTimeMillis() + ""));
-                List<List<Object>> remoteItems = new ArrayList<>();
-                //获取统计项的值
-                for(String itemid : dataMap.keySet()){
-                    Object val = dataMap.get(itemid);
-                    // 创建 List数组保存数据
-                    if(val != null){
-                        List<Object> remoteItem  = new ArrayList<>();
-                        remoteItems.add(remoteItem);
-                        remoteItem.add(itemid);
-                        remoteItem.add(val);
-                        remoteItem.add("g");
+                        RemoteDevicePojo remoteDevicePojo = new RemoteDevicePojo();
+                        devicePojos.add(remoteDevicePojo);
+                        remoteDevicePojo.setD("1");
+                        remoteDevicePojo.setT((System.currentTimeMillis() + ""));
+                        List<List<Object>> remoteItems = new ArrayList<>();
+                        //获取统计项的值
+                        for(String itemid : dataMap.keySet()){
+                            Object val = dataMap.get(itemid);
+                            // 创建 List数组保存数据
+                            if(val != null){
+                                List<Object> remoteItem  = new ArrayList<>();
+                                remoteItems.add(remoteItem);
+                                remoteItem.add(itemid);
+                                remoteItem.add(val);
+                                remoteItem.add("g");
+                            }
+                        }
+                        remoteDevicePojo.setC(remoteItems);
                     }
                 }
-                remoteDevicePojo.setC(remoteItems);
             }
         }
         return gatewayPojos;

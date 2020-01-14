@@ -78,14 +78,12 @@ public class ServiceApi {
                     deviceIds = deviceIds + deviceArray.get(i).toString().split(",")[0] + ",";
                 }
             }
-            System.out.println(deviceIds);
             String link = HOST+REALTIME_API+"?token="+Constant.accessToken+"&hash=test&deviceIds="+deviceIds;
             String result = HttpUtil.get(link);
             if(StringUtils.isBlank(result)){
                 return;
             }
             JSONObject jsonObject = JSONObject.parseObject(result);
-            logger.info("获取实时数据... : "+jsonObject.toJSONString());
             slRemoteService.handle(jsonObject);
         }catch (Exception e){
             logger.error("getRealTimeData error !",e);
