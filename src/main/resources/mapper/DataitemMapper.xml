@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lelian.mqtt.mapper.DataitemMapper">
+
+    <insert id="insert" parameterType="java.util.Map">
+        INSERT INTO "public"."dataitem" ( "id", "devid", "driverid", "name", "alias", "isreport", "isreadonly", "datatype", "did" )
+            VALUES
+        ( #{itemId,jdbcType=INTEGER}, #{deviceNumber,jdbcType=INTEGER}, 1, #{itemName,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, 1, 0, 'a', 100 )
+    </insert>
+    
+    <update id="updateAlias" parameterType="java.util.Map">
+        update "public"."dataitem" set alias = #{alias,jdbcType=VARCHAR}
+        where devid = #{deviceNumber,jdbcType=INTEGER} and id = #{itemId,jdbcType=INTEGER}
+    </update>
+
+    <select id="checkConflict" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select
+            count(1)
+        from
+            "public"."dataitem"
+        where
+            1 = 1
+            and id = #{itemId,jdbcType=INTEGER}
+            and devid = #{deviceNumber,jdbcType=INTEGER}
+            and driverid = 1
+    </select>
+
+    <update id="updateByKey" parameterType="java.util.Map">
+        update "public"."dataitem"
+        set
+            name = #{itemName,jdbcType=VARCHAR},
+            isreport = 1,
+            isreadonly = 0,
+            datatype = 'a',
+            did = 100
+        where
+            id = #{itemId,jdbcType=INTEGER}
+            and devid = #{deviceNumber,jdbcType=INTEGER}
+            and driverid = 1
+    </update>
+
+</mapper>
