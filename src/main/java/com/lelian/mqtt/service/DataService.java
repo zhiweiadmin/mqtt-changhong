@@ -86,19 +86,17 @@ public class DataService {
         return null;
     }
 
-    public void addDataitem(Object deviceNumber){
+    public void addDataitem(int deviceNumber){
         try{
             Map<String,Object> paramMap = Maps.newHashMap();
             paramMap.put("deviceNumber",deviceNumber);
             for(String key : DataItem.ITEMMAP.keySet()){
-                Integer itemid = DataItem.ITEMMAP.get(key);
+                String itemid = DataItem.ITEMMAP.get(key).toString();
                 String itemName = key;
                 paramMap.put("itemId",itemid);
+                paramMap.put("itemName",itemName);
                 if(dataitemMapper.checkConflict(paramMap) == 0){
-                    Map<String,Object> param = Maps.newHashMap();
-                    param.put("deviceNumber",deviceNumber);
-                    param.put("itemName",itemName);
-                    dataitemMapper.insert(param);
+                    dataitemMapper.insert(paramMap);
                 }else{
                     logger.info("addDataitem 唯一键冲突 ! deviceNumber = "+deviceNumber);
                     dataitemMapper.updateByKey(paramMap);

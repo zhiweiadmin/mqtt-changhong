@@ -8,7 +8,7 @@ public class DataItem {
 
     public static Map<String,Integer> ITEMMAP = Maps.newHashMap();
 
-    {
+    static {
         ITEMMAP.put("开关机",1);
         ITEMMAP.put("模式",2);
         ITEMMAP.put("设定温度整数",3);

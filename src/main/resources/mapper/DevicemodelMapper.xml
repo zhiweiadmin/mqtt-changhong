@@ -15,7 +15,7 @@
   </select>
 
   <select id="selectByName" resultType="java.lang.Integer">
-    select id from "public"."devicemodel" where name = 'temp'
+    select id from "public"."devicemodel" where name = #{name,jdbcType=INTEGER}
   </select>
 
 </mapper>
