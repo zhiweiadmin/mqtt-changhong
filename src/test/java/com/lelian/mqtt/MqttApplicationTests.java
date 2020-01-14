@@ -66,9 +66,9 @@ public class MqttApplicationTests {
 
 	@Test
 	public void ddddd(){
-//		serviceApi.refreshAccessToken();
-//		serviceApi.getRealTimeData();
-		slRemoteService.initSLMap();
+		serviceApi.refreshAccessToken();
+		serviceApi.getRealTimeData();
+//		slRemoteService.initSLMap();
 	}
 
 }

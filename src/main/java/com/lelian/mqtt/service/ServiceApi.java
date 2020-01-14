@@ -3,6 +3,7 @@ package com.lelian.mqtt.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.lelian.mqtt.util.Constant;
 import com.lelian.mqtt.util.HttpUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.Set;
 
 @Service
 public class ServiceApi {
@@ -70,12 +73,24 @@ public class ServiceApi {
             String jsonString = getConfigContent();
             JSONObject devicesObject = JSONObject.parseObject(jsonString);
             JSONArray deviceArray = devicesObject.getJSONArray("devices");
+
+            Set<String> deviceSet = Sets.newHashSet();
+            for(Object object : deviceArray){
+                deviceSet.add(object.toString().split(",")[0]);
+            }
+
             String deviceIds = "";
-            for(int i=0;i<deviceArray.size();i++){
-                if(i == deviceArray.size()-1){
-                    deviceIds = deviceIds + deviceArray.get(i).toString().split(",")[0];
+
+            JSONArray jsonArray = new JSONArray();
+            for(String val : deviceSet){
+                jsonArray.add(val);
+            }
+
+            for(int i=0;i<jsonArray.size();i++){
+                if(i == jsonArray.size()-1){
+                    deviceIds = deviceIds + jsonArray.get(i).toString();
                 }else{
-                    deviceIds = deviceIds + deviceArray.get(i).toString().split(",")[0] + ",";
+                    deviceIds = deviceIds + jsonArray.get(i).toString() + ",";
                 }
             }
             String link = HOST+REALTIME_API+"?token="+Constant.accessToken+"&hash=test&deviceIds="+deviceIds;

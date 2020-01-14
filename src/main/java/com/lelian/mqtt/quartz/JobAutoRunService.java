@@ -29,7 +29,7 @@ public class JobAutoRunService implements ApplicationRunner {
         //每10个小时刷新一下token
         schedulerManager.startJob("0 0 0/20 * * ? *","tokenJob","tokenJobGroup", TokenScheduledJob.class);
         //每天凌晨20秒的时候开始运行
-        schedulerManager.startJob("0 0/2 * * * ? *","realTimeJob","realTimeJobGroup", RealTimeScheduledJob.class);
+        schedulerManager.startJob("0 0/10 * * * ? *","realTimeJob","realTimeJobGroup", RealTimeScheduledJob.class);
     }
 
 }

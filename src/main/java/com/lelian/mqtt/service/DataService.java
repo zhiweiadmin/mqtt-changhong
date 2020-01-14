@@ -42,7 +42,7 @@ public class DataService {
                 deviceMapper.insert(paramMap);
             }else{
                 deviceMapper.updateByKey(paramMap);
-                logger.info("addDevice 唯一键冲突 ! deviceNumber = "+deviceNumber);
+                //logger.info("addDevice 唯一键冲突 ! deviceNumber = "+deviceNumber);
             }
         }catch (Exception e){
             logger.error("addDevice error !",e);
@@ -58,7 +58,7 @@ public class DataService {
                 param.put("serialnumber",serialnumber);
                 agentMapper.insert(param);
             }else{
-                logger.info("addAgent 唯一键冲突 ! serialnumber = "+serialnumber);
+                //logger.info("addAgent 唯一键冲突 ! serialnumber = "+serialnumber);
             }
         }catch (Exception e){
             logger.error("addAgent error !",e);
@@ -77,7 +77,7 @@ public class DataService {
                 devicemodelMapper.insert(param);
                 return modelid;
             }else{
-                logger.info("addModel 唯一键冲突 ! name = CHLRD_12GW_DPB");
+                //logger.info("addModel 唯一键冲突 ! name = CHLRD_12GW_DPB");
                 return devicemodelMapper.selectByName(paramMap);
             }
         }catch (Exception e){
@@ -98,7 +98,7 @@ public class DataService {
                 if(dataitemMapper.checkConflict(paramMap) == 0){
                     dataitemMapper.insert(paramMap);
                 }else{
-                    logger.info("addDataitem 唯一键冲突 ! deviceNumber = "+deviceNumber);
+                    //logger.info("addDataitem 唯一键冲突 ! deviceNumber = "+deviceNumber);
                     dataitemMapper.updateByKey(paramMap);
                 }
             }
