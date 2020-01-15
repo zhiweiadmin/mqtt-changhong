@@ -116,4 +116,12 @@ public class PushController {
         return result;
     }
 
+    @RequestMapping(value="/index", produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public Result index(){
+        Result result = new Result();
+        result.setData("hello");
+        return result;
+    }
+
 }
