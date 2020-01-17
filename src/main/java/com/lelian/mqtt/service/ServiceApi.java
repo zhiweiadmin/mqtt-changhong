@@ -125,15 +125,16 @@ public class ServiceApi {
                     deviceIds = deviceIds + dataList.get(i) + ",";
                 }
             }
-
-            String link = HOST + REALTIME_API + "?token=" + Constant.accessToken + "&hash=test&deviceIds=" + deviceIds;
-            logger.info("请求地址 : "+link);
-            String result = HttpUtil.get(link);
-            if (StringUtils.isBlank(result)) {
-                return;
+            if(StringUtils.isNotBlank(deviceIds)){
+                String link = HOST + REALTIME_API + "?token=" + Constant.accessToken + "&hash=test&deviceIds=" + deviceIds;
+                logger.info("请求地址 : "+link);
+                String result = HttpUtil.get(link);
+                if (StringUtils.isBlank(result)) {
+                    return;
+                }
+                JSONObject jsonObject = JSONObject.parseObject(result);
+                slRemoteService.handle(jsonObject);
             }
-            JSONObject jsonObject = JSONObject.parseObject(result);
-            slRemoteService.handle(jsonObject);
         } catch (Exception e) {
             logger.error("dealData error !", e);
         }

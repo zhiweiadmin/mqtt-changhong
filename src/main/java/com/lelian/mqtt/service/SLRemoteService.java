@@ -81,12 +81,12 @@ public class SLRemoteService {
                     devicePojo.setSerialNumber(String.valueOf(serialNumber));
                     SLMap.put(agreement, devicePojo);
                     //初始化数据库数据
-                    dataService.addAgent(serialNumber);
-                    Integer modelid = dataService.addModel();
-                    if(modelid != null){
-                        dataService.addDevice(serialNumber,deviceNumber,modelid);
-                    }
-                    dataService.addDataitem(deviceNumber);
+//                    dataService.addAgent(serialNumber);
+//                    Integer modelid = dataService.addModel();
+//                    if(modelid != null){
+//                        dataService.addDevice(serialNumber,deviceNumber,modelid);
+//                    }
+//                    dataService.addDataitem(deviceNumber);
                 }
             }
         } catch (Exception e) {
