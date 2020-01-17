@@ -132,8 +132,8 @@ public class ServiceApi {
             if (StringUtils.isBlank(result)) {
                 return;
             }
-            //JSONObject jsonObject = JSONObject.parseObject(result);
-            //slRemoteService.handle(jsonObject);
+            JSONObject jsonObject = JSONObject.parseObject(result);
+            slRemoteService.handle(jsonObject);
         } catch (Exception e) {
             logger.error("dealData error !", e);
         }

@@ -28,8 +28,8 @@ public class JobAutoRunService implements ApplicationRunner {
         serviceApi.getRealTimeData();
         //每5个小时刷新一下token
         schedulerManager.startJob("0 0 0/5 * * ? *","tokenJob","tokenJobGroup", TokenScheduledJob.class);
-        //每2个小时执行一次
-        schedulerManager.startJob("0 0 0/2 * * ? *","realTimeJob","realTimeJobGroup", RealTimeScheduledJob.class);
+        //每10分鐘执行一次
+        schedulerManager.startJob("0 0/10 * * * ? *","realTimeJob","realTimeJobGroup", RealTimeScheduledJob.class);
     }
 
 }
